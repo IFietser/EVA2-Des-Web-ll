@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Formulario Cliente</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <style>
+        body {
+            background: linear-gradient(135deg, #ffedd5, #ffe4e6);
+            min-height: 100vh;
+        }
+        </style>
 </head>
-<body>
+<body class="p-4">
 
-<h1 th:text="${cliente.id != null ? 'Editar Cliente' : 'Crear Cliente'}"></h1>
+<div class="container col-md-6">
 
-<form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post">
+    <h2 class="mb-4" th:text="${cliente.id != null ? 'Editar Cliente' : 'Crear Cliente'}"></h2>
 
-    <input type="hidden" th:field="*{id}"/>
+    <form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post" class="card p-4 shadow">
 
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" required />
-    <br><br>
+        <input type="hidden" th:field="*{id}"/>
 
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" required />
-    <br><br>
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" required>
+        </div>
 
-    <button type="submit">Guardar</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" required>
+        </div>
 
-<a th:href="@{/clientes}">Volver</a>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a th:href="@{/clientes}" class="btn btn-secondary">Volver</a>
+
+    </form>
+
+</div>
 
 </body>
 </html>

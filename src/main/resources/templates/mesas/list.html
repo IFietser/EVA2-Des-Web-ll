@@ -1,36 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Listado de Mesas</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <style>
+        body {
+            background: linear-gradient(135deg, #ffedd5, #ffe4e6);
+            min-height: 100vh;
+        }
+        </style>
 </head>
-<body>
+<body class="p-4">
 
-<h1>Mesas</h1>
+<div class="container">
 
-<a th:href="@{/mesas/nueva}">Crear Mesa</a>
+    <h1 class="mb-4">Mesas</h1>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Número</th>
-        <th>Asientos</th>
-        <th>Disponible</th>
-        <th>Acciones</th>
-    </tr>
+    <a href="/" class="btn btn-secondary mb-3">Inicio</a>
+    <a th:href="@{/mesas/nueva}" class="btn btn-primary mb-3">Crear Mesa</a>
 
-    <tr th:each="m : ${mesas}">
-        <td th:text="${m.id}"></td>
-        <td th:text="${m.numero}"></td>
-        <td th:text="${m.asientos}"></td>
-        <td th:text="${m.disponible}"></td>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Número</th>
+            <th>Asientos</th>
+            <th>Disponible</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
 
-        <td>
-            <a th:href="@{'/mesas/editar/' + ${m.id}}">Editar</a> |
-            <a th:href="@{'/mesas/eliminar/' + ${m.id}}">Eliminar</a>
-        </td>
-    </tr>
+        <tbody>
+        <tr th:each="m : ${mesas}">
+            <td th:text="${m.id}"></td>
+            <td th:text="${m.numero}"></td>
+            <td th:text="${m.asientos}"></td>
+            <td th:text="${m.disponible ? 'Sí' : 'No'}"></td>
 
-</table>
+            <td>
+                <a th:href="@{'/mesas/editar/' + ${m.id}}"
+                   class="btn btn-sm btn-warning">Editar</a>
+                <a th:href="@{'/mesas/eliminar/' + ${m.id}}"
+                   class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
 
 </body>
 </html>

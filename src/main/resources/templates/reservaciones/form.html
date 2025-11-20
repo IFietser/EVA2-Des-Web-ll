@@ -1,46 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Formulario Reservación</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <style>
+        body {
+            background: linear-gradient(135deg, #ffedd5, #ffe4e6);
+            min-height: 100vh;
+        }
+        </style>
 </head>
-<body>
+<body class="p-4">
 
-<h1 th:text="${reservacion.id != null ? 'Editar Reservación' : 'Crear Reservación'}"></h1>
+<div class="container col-md-8">
 
-<form th:action="@{/reservaciones/guardar}" th:object="${reservacion}" method="post">
+    <h2 class="mb-4" th:text="${reservacion.id != null ? 'Editar Reservación' : 'Crear Reservación'}"></h2>
 
-    <input type="hidden" th:field="*{id}"/>
+    <form th:action="@{/reservaciones/guardar}" th:object="${reservacion}" method="post" class="card p-4 shadow">
 
-    <label>Cliente:</label>
-    <select th:field="*{cliente.id}">
-        <option th:each="c : ${clientes}"
-                th:value="${c.id}"
-                th:text="${c.nombre}">
-        </option>
-    </select>
-    <br><br>
+        <input type="hidden" th:field="*{id}"/>
 
-    <label>Mesa:</label>
-    <select th:field="*{mesa.id}">
-        <option th:each="m : ${mesas}"
-                th:value="${m.id}"
-                th:text="${'Mesa ' + m.numeroMesa + ' (capacidad: ' + m.capacidad + ')'}">
-        </option>
-    </select>
-    <br><br>
+        <!-- Cliente -->
+        <div class="mb-3">
+            <label class="form-label">Cliente</label>
+            <select class="form-select" th:field="*{cliente.id}" required>
+                <option value="">Seleccionar...</option>
+                <option th:each="c : ${clientes}"
+                        th:value="${c.id}"
+                        th:text="${c.nombre}"></option>
+            </select>
+        </div>
 
-    <label>Inicio:</label>
-    <input type="datetime-local" th:field="*{startDateTime}" required />
-    <br><br>
+        <!-- Mesa -->
+        <div class="mb-3">
+            <label class="form-label">Mesa</label>
+            <select class="form-select" th:field="*{mesa.id}" required>
+                <option value="">Seleccionar...</option>
+                <option th:each="m : ${mesas}"
+                        th:value="${m.id}"
+                        th:text="${'Mesa ' + m.numero + ' (Asientos: ' + m.asientos + ')'}"></option>
+            </select>
+        </div>
 
-    <label>Fin:</label>
-    <input type="datetime-local" th:field="*{endDateTime}" required />
-    <br><br>
+        <!-- Inicio -->
+        <div class="mb-3">
+            <label class="form-label">Inicio</label>
+            <input type="datetime-local" class="form-control"
+                   th:field="*{startDateTime}" required>
+        </div>
 
-    <button type="submit">Guardar</button>
-</form>
+        <!-- Fin -->
+        <div class="mb-3">
+            <label class="form-label">Fin</label>
+            <input type="datetime-local" class="form-control"
+                   th:field="*{endDateTime}" required>
+        </div>
 
-<a th:href="@{/reservaciones}">Volver</a>
+        <!-- Cantidad de personas -->
+        <div class="mb-3">
+            <label class="form-label">Cantidad de Personas</label>
+            <input type="number" min="1" class="form-control" th:field="*{cantidadPersonas}" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a th:href="@{/reservaciones}" class="btn btn-secondary">Volver</a>
+
+    </form>
+
+</div>
 
 </body>
 </html>

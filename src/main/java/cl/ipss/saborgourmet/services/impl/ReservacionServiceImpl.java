@@ -23,7 +23,7 @@ public class ReservacionServiceImpl implements ReservacionService {
         // Validar solapamiento de horarios
         var conflictos = reservacionRepository.findConflictingReservations(
                 reservacion.getMesa().getId(),
-                EstadoReservacion.CANCELADA,       // Ignora canceladas
+                EstadoReservacion.CANCELADA,  // Ignora canceladas
                 reservacion.getStartDateTime(),
                 reservacion.getEndDateTime()
         );
@@ -62,13 +62,6 @@ public class ReservacionServiceImpl implements ReservacionService {
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public void save(Reservacion reservacion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        reservacionRepository.deleteById(id);
     }
 }

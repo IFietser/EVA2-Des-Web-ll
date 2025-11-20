@@ -10,5 +10,5 @@ public interface ReservacionService {
     List<Reservacion> findByCliente(Long clienteId);
     void cancelar(Long id);
     void delete(Long id);
-    void save(Reservacion reservacion);
 }
+

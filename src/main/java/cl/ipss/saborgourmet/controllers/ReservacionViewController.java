@@ -41,7 +41,7 @@ public class ReservacionViewController {
 
     @PostMapping("/reservaciones/guardar")
     public String guardarReservacion(@ModelAttribute Reservacion reservacion) {
-        reservacionService.save(reservacion);
+        reservacionService.crear(reservacion);
         return "redirect:/reservaciones";
     }
 

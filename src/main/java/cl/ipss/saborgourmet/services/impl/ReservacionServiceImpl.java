@@ -59,4 +59,16 @@ public class ReservacionServiceImpl implements ReservacionService {
         r.setEstado(EstadoReservacion.CANCELADA);
         reservacionRepository.save(r);
     }
+
+    @Override
+    public void delete(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public void save(Reservacion reservacion) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    }
 }

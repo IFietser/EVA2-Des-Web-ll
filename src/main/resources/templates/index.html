@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sabor Gourmet - Sistema de Reservas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sistema de Reservas - Sabor Gourmet</h1>
+
+<div class="menu">
+    <a class="card" th:href="@{/clientes}">
+        <h2>Clientes</h2>
+        <p>Gestión de clientes</p>
+    </a>
+
+    <a class="card" th:href="@{/mesas}">
+        <h2>Mesas</h2>
+        <p>Administración de mesas</p>
+    </a>
+
+    <a class="card" th:href="@{/reservaciones}">
+        <h2>Reservaciones</h2>
+        <p>Crear y administrar reservas</p>
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Mesas</title>
+</head>
+<body>
+
+<h1>Mesas</h1>
+
+<a th:href="@{/mesas/nueva}">Crear Mesa</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Número</th>
+        <th>Asientos</th>
+        <th>Disponible</th>
+        <th>Acciones</th>
+    </tr>
+
+    <tr th:each="m : ${mesas}">
+        <td th:text="${m.id}"></td>
+        <td th:text="${m.numero}"></td>
+        <td th:text="${m.asientos}"></td>
+        <td th:text="${m.disponible}"></td>
+
+        <td>
+            <a th:href="@{'/mesas/editar/' + ${m.id}}">Editar</a> |
+            <a th:href="@{'/mesas/eliminar/' + ${m.id}}">Eliminar</a>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

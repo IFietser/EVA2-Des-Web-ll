@@ -9,54 +9,64 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/reservaciones")
 public class ReservacionViewController {
 
     private final ReservacionService reservacionService;
     private final ClienteService clienteService;
     private final MesaService mesaService;
 
-    public ReservacionViewController(
-            ReservacionService reservacionService,
-            ClienteService clienteService,
-            MesaService mesaService
-    ) {
+    public ReservacionViewController(ReservacionService reservacionService,
+                                     ClienteService clienteService,
+                                     MesaService mesaService) {
         this.reservacionService = reservacionService;
         this.clienteService = clienteService;
         this.mesaService = mesaService;
     }
 
-    @GetMapping("/reservaciones")
-    public String listarReservaciones(Model model) {
+    @GetMapping
+    public String listar(Model model,
+                         @RequestParam(value = "success", required = false) String success,
+                         @RequestParam(value = "error", required = false) String error) {
+
         model.addAttribute("reservaciones", reservacionService.findAll());
-        return "reservaciones/list"; // templates/reservaciones/list.html
+        model.addAttribute("successMessage", success);
+        model.addAttribute("errorMessage", error);
+        return "reservaciones/list";
     }
 
-    @GetMapping("/reservaciones/nueva")
-    public String nuevaReservacion(Model model) {
+    @GetMapping("/nueva")
+    public String nueva(Model model) {
         model.addAttribute("reservacion", new Reservacion());
-        model.addAttribute("clientes", clienteService.findAll());
-        model.addAttribute("mesas", mesaService.findAll());
-        return "reservaciones/form"; // templates/reservaciones/form.html
-    }
-
-    @PostMapping("/reservaciones/guardar")
-    public String guardarReservacion(@ModelAttribute Reservacion reservacion) {
-        reservacionService.crear(reservacion);
-        return "redirect:/reservaciones";
-    }
-
-    @GetMapping("/reservaciones/editar/{id}")
-    public String editarReservacion(@PathVariable Long id, Model model) {
-        Reservacion reservacion = reservacionService.findById(id);
-        model.addAttribute("reservacion", reservacion);
         model.addAttribute("clientes", clienteService.findAll());
         model.addAttribute("mesas", mesaService.findAll());
         return "reservaciones/form";
     }
 
-    @GetMapping("/reservaciones/eliminar/{id}")
-    public String eliminarReservacion(@PathVariable Long id) {
-        reservacionService.delete(id);
-        return "redirect:/reservaciones";
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute Reservacion reservacion, Model model) {
+        try {
+            reservacionService.crear(reservacion);
+            return "redirect:/reservaciones?success=Reservación creada exitosamente";
+
+        } catch (Exception e) {
+            model.addAttribute("reservacion", reservacion);
+            model.addAttribute("clientes", clienteService.findAll());
+            model.addAttribute("mesas", mesaService.findAll());
+
+            model.addAttribute("errorMessage", e.getMessage());
+            return "reservaciones/form";
+        }
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Long id) {
+        try {
+            reservacionService.delete(id);
+            return "redirect:/reservaciones?success=Reservación eliminada";
+
+        } catch (Exception e) {
+            return "redirect:/reservaciones?error=" + e.getMessage();
+        }
     }
 }

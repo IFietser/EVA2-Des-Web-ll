@@ -5,21 +5,25 @@ import cl.ipss.saborgourmet.models.EstadoReservacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
 
 @Repository
 public interface ReservacionRepository extends JpaRepository<Reservacion, Long> {
 
-    // Buscar reservaciones por mesa y rango de tiempo para verificar solapamientos
-    @Query("SELECT r FROM Reservacion r WHERE r.mesa.id = ?1 AND r.estado != ?2 AND " +
-        "((r.startDateTime <= ?3 AND r.endDateTime > ?3) OR (r.startDateTime < ?4 AND r.endDateTime >= ?4))")
-    List<Reservacion> findConflictingReservations(Long mesaId, EstadoReservacion estado, LocalDateTime start, LocalDateTime end);
+    @Query("SELECT r FROM Reservacion r " +
+           "WHERE r.mesa.id = ?1 AND r.estado != ?2 AND " +
+           "((r.startDateTime <= ?3 AND r.endDateTime > ?3) OR " +
+           "(r.startDateTime < ?4 AND r.endDateTime >= ?4))")
+    List<Reservacion> findConflictingReservations(
+            Long mesaId,
+            EstadoReservacion estado,
+            LocalDateTime start,
+            LocalDateTime end
+    );
 
-    // Buscar reservaciones por cliente
     List<Reservacion> findByClienteId(Long clienteId);
 
-    // Buscar reservaciones activas (no canceladas)
     List<Reservacion> findByEstadoNot(EstadoReservacion estado);
 }
